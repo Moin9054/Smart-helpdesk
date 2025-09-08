@@ -1,0 +1,30 @@
+services:
+  mongo:
+    image: mongo:6
+    ports: ["27017:27017"]
+    volumes: [mongo-data:/data/db]
+
+  api:
+    build: ./server
+    environment:
+      - PORT=8080
+      - MONGO_URI=mongodb://mongo:27017/helpdesk
+      - JWT_SECRET=change-me
+      - STUB_MODE=true
+      # these are fallback; admin UI values in DB override at runtime
+      - AUTO_CLOSE_ENABLED=true
+      - CONFIDENCE_THRESHOLD=0.78
+    depends_on: [mongo]
+    ports: ["8080:8080"]
+    command: ["node","index.js"]
+
+  client:
+    build: ./client
+    environment:
+      - VITE_API_BASE=http://localhost:8080/api
+    depends_on: [api]
+    ports: ["5173:5173"]
+    command: ["npm","run","dev","--","--host","0.0.0.0","--port","5173"]
+
+volumes:
+  mongo-data:
