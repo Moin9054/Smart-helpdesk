@@ -56,7 +56,7 @@ Future extension: swap the stub with a classifier (e.g., scikit-learn, HuggingFa
 
 ---
 
-## 🗂️ Project Architecture
+## 📂 Project Architecture
 
 ```mermaid
 flowchart LR
@@ -87,3 +87,4 @@ flowchart LR
   Agent --> Articles
   Agent --> Audit
   Routes --> ConfigSvc
+```
