@@ -58,33 +58,4 @@ Future extension: swap the stub with a classifier (e.g., scikit-learn, HuggingFa
 
 ## 📂 Project Architecture
 
-```mermaid
-flowchart LR
-  subgraph Client [Frontend (Vite React)]
-    UI[Pages & Components]
-    AuthHook[Auth (token, role)]
-  end
-
-  subgraph API [Backend (Node/Express)]
-    Routes[REST Routes (/auth, /tickets, /agent, /kb, /config)]
-    Agent[Agent Stub (classify → retrieve → draft → decide)]
-    Audit[Audit Logger (traceId)]
-    ConfigSvc[Config Service (auto-close, threshold, SLA)]
-  end
-
-  subgraph DB [(MongoDB)]
-    Tickets[(tickets)]
-    Suggestions[(agentSuggestions)]
-    Articles[(knowledgeBase)]
-    Audits[(auditLogs)]
-    Config[(config)]
-  end
-
-  UI -->|/api (VITE_API_BASE)| Routes
-  AuthHook -->|Bearer JWT| Routes
-  Routes --> Tickets & Suggestions & Audits & Articles & Config
-  Routes --> Agent
-  Agent --> Articles
-  Agent --> Audit
-  Routes --> ConfigSvc
-```
+![Architecture Diagram](docs/architecture.png)
